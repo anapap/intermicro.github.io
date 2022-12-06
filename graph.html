@@ -1,1 +1,22 @@
-<div class="kg-container" src="{{ include.graph }}.yml"></div><div class="full-screen-link"><a href="../../graph.html?category={{ include.category }}&graph={{ include.graph }}" target="_new">Full screen version</a></div>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Individual Graph View</title>
+    <link href="https://kineticgraphs.org/css/kg.0.2.6.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="graph" class="kg-container">
+      (loading. please wait)
+    </div>
+  </body>
+      <script src="https://kineticgraphs.org/js/kg3d.0.2.6.js"></script>
+      <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const category = urlParams.get('category');
+        const graph = urlParams.get('graph');
+        const path = "./problems/" + category + "/" + graph + ".yml";
+        document.getElementById("graph").setAttribute("src", path)
+      </script>
+</html>
