@@ -1,6 +1,6 @@
 ---
 layout: exercise
-title: Changing Hearts and Minds
+title: Cournot with n firms
 version: 0.2.6
 goals: [III.B.3]
 ---
