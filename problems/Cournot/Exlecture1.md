@@ -1,3 +1,11 @@
+---
+layout: exercise
+title: Changing Hearts and Minds
+version: 0.2.6
+goals: [III.B.3]
+---
+
+
 Often a utility function is defined 
 by some parameters
 
@@ -8,3 +16,4 @@ complements" utility function
 
     Show the effect of a decrease in α from $0.7$ to $0.3$.
 
+{% include graph.html category="Cournot" graph="cournot_oligopoly" %}
