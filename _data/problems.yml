@@ -1,0 +1,5 @@
+- name: Exercise Lecture 1
+  url: cournot
+  problems:
+    - name: Exercise lecture 1
+      url: exlecture1
