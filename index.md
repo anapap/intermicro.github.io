@@ -1,16 +1,18 @@
 ---
-layout: default
-title: Graphs
+layout: nav
+title: Problems
 ---
 
-{% for chapter in site.data.chapters %}
-### {{ chapter.chapter }} &nbsp; &nbsp;  {{ chapter.name }}
-{% assign filtered_graphs = site.graphs | where: "chapter", chapter.chapter %}
+{% for folder in site.data.problems %}
+
+### {{ folder.name }}
+
 <ul>
-  {% for graph in filtered_graphs %}
+  {% for problem in folder.problems %}
     <li>
-      <a href="./{{ graph.url }}">{{ graph.name }}</a>
+      <a href="./problems/{{folder.url}}/{{ problem.url }}">{{ problem.name }}</a>
     </li>
   {% endfor %}
 </ul>
+
 {% endfor %}
