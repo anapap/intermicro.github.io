@@ -17,4 +17,4 @@ complements" utility function
       Show the effect of a decrease in α from $0.7$ to $0.3$.
 
 
-{% include graph.html category="Cournot" graph="cournot_oligopoly" %}
+{% include graph.html category="Cournot" graph="perfect_complements" %}
