@@ -62,7 +62,7 @@ layout:
 
 
       - Line:
-          yIntercept: ((p-c)/beta)
+          yIntercept: (params.p-params.c)/params.beta
           slope: -2
           color: cbgreen
           label: 
