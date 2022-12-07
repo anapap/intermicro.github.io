@@ -45,6 +45,7 @@ calcs:
   profit: (calcs.price-2)*calcs.nash*params.n 
   cs: (0.5*(20-calcs.price))*calcs.nash*params.n 
   sum: calcs.profit + calcs.cs
+  y: (params.phat - params.c)/(params.beta)
 
 
 layout:
@@ -63,7 +64,7 @@ layout:
 
 
       - Line:
-          yIntercept: 36
+          yIntercept: calcs.y
           slope: -2
           color: cbgreen
           label: 
