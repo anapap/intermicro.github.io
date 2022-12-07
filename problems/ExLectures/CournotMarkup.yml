@@ -81,7 +81,7 @@ layout:
           vertical: "\\large\\frac{\\bar{p}-c}{2\\beta}"
           
       - Point:
-         coordinates: [0,36]
+         coordinates: [0,calcs.interY]
          r: 0
          color: cbgreen
          droplines: 
