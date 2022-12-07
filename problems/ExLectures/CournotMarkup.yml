@@ -186,6 +186,6 @@ layout:
         sliders:
         - {param: n, label: n}
         - {param: beta, label: β}
-        - {param: phat, label: "\\bar{p}"} 
+        - {param: phat, label: p} 
         - {param: c, label: c}
          
