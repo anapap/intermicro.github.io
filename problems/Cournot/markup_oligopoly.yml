@@ -19,12 +19,7 @@ params:
     round: 0.01
   - name: showBestResponse
     value: false
-  - name: beta 
-    value: 0.5
-    min: 0 
-    max: 1
-    round: 0.01
-
+    
   
 calcs:
   br: (36-2*params.x)
@@ -58,7 +53,7 @@ layout:
           color: cbgreen
           label: 
             text: "\\text{brf}"
-            x: 17
+            x: 16
             align: left
 
            
@@ -167,6 +162,4 @@ layout:
         
         sliders:
         - {param: n, label: n}
-        - {param: beta, label: β}
-   
          
