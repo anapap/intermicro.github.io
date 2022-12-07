@@ -37,15 +37,16 @@ params:
     
   
 calcs:
-  br: (36-2*params.x)
-  nash: ((18)/((params.n+1)0.5))
+  br: (((params.phat - params.c)/(params.beta))-2*params.x)
+  nash: ((params.phat - params.c)/((params.n+1)*params.beta))
   nashX: (calcs.nash)*(params.n-1)
   totaloutput: calcs.nash + calcs.nashX
-  price: (2 + 18/(1+params.n))
-  profit: (calcs.price-2)*calcs.nash*params.n 
-  cs: (0.5*(20-calcs.price))*calcs.nash*params.n 
+  price: (params.c + (params.phat - params.c)/(1+params.n))
+  profit: (calcs.price-params.c)*calcs.nash*params.n 
+  cs: (params.beta*(params.phat-calcs.price))*calcs.nash*params.n 
   sum: calcs.profit + calcs.cs
   interY: ((params.phat - params.c)/(params.beta))
+  interX: ((params.phat - params.c)/(2*params.beta))
 
 
 layout:
@@ -74,7 +75,7 @@ layout:
 
            
       - Point:
-         coordinates: [18,0]
+         coordinates: [calcs.interx,0]
          r: 0
          color: cbgreen
          droplines: 
@@ -89,7 +90,7 @@ layout:
 
           
       - Contour:
-          level: [(1/(params.n+1)^2)*(20 - 2)^2/(0.5)]
+          level: [(1/(params.n+1)^2)*(params.phat - params.c)^2/(params.beta)]
           fn: "(20 - 0.5*y)*(x) - 0.5*(x)^2 - 2*(x)"
           color: cbgreen
       - Label:
