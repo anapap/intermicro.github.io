@@ -24,6 +24,8 @@ params:
     min: 0 
     max: 1
     round: 0.01
+  - {name: p, value: 12, min: 8, max: 25, round: 0.5}
+  - {name: c, value: 4, min: 0, max: 14, round: 0.5}
   
 calcs:
   br: (36-2*params.x)
@@ -52,12 +54,12 @@ layout:
 
 
       - Line:
-          yIntercept: 36
+          yIntercept: ((p-c)/beta)
           slope: -2
           color: cbgreen
           label: 
             text: "\\text{brf}"
-            x: 16
+            x: 17
             align: left
 
            
@@ -167,4 +169,6 @@ layout:
         sliders:
         - {param: n, label: n}
         - {param: beta, label: β}
+        - {param: p, label: \bar{p}}
+        - {param: c, label: c}
          
