@@ -1,5 +1,5 @@
-- name: Exercise Lecture 1
-  url: Cournot
+- name: Exercise Lectures
+  <!-- url: Cournot -->
   problems:
-    - name: Exercise lecture 1
+    - name: Exercise Lecture 1: Cournot model
       url: ExLec1
