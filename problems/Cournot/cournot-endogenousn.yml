@@ -1,0 +1,123 @@
+schema: EconSchema
+colors:
+  cbblue: "'#0072B2'"
+  cbmustard: "'#E69F00'"
+  cbgreen: "'#009E73'"
+  cbyellow: "'#F0E442'"
+  cbred: "'#CC79A7'"
+  cborange: "'#D55E00'"
+params:
+  - {name: p, value: 12, min: 8, max: 25, round: 0.5}
+  - {name: c, value: 4, min: 0, max: 14, round: 0.5}
+  - {name: b, value: 0.5, min: 0, max: 1, round: .01}
+calcs:
+  n : ((params.p*(1-params.b)) - params.c)/(params.b*params.c)
+  p : (params.c + (1/(calcs.n+1)) * (params.p-params.c))
+  phat : (1-params.b)*calcs.p
+  ecprofits: (calcs.n*(1/(calcs.n+1)^2))*((params.p-params.c)^2/(params.b))
+  cs: (1/2)*(params.p - (params.c + ((1/(calcs.n+1))*(params.p -params.c)  )) )*(calcs.n/(calcs.n+1))*( (params.p - params.c)/(params.b))
+  markup: calcs.p - params.c
+  eccs: calcs.ecprofits + calcs.cs
+  nneg : (calcs.n < 0)
+layout:
+  type: TwoVerticalGraphsPlusSidebar
+  def:
+    topGraph:
+      xAxis:
+        title: "Number of firms, n"
+        max: 20
+        ticks: 4
+      yAxis:
+        title: "Costs, price, expected price"
+        max: 12
+        ticks: 2
+      objects:
+      - Curve:
+          fn: params.c + (1/((x)+1)) * (params.p-params.c)
+          color: colors.cbgreen
+          label:    
+            x: 16
+            text: "{p}(n)"
+      - Curve:
+         univariateFunction:
+            fn: (1-params.b)*(params.c + (1/((x)+1)) * (params.p-params.c))
+         color: colors.cbgreen
+         lineStyle: dotted
+         label:    
+           text: "'\\\\hat{p}(n)'"
+           x: 16
+      - Line:
+          yIntercept: params.c
+          slope: 0
+          color: colors.cbblue   
+          label:            
+              text: "cost"
+              x: 19 
+      - Point:
+          coordinates: [calcs.n, calcs.p]
+          color: black
+          label:            
+              text: "p(n^*)"
+          droplines:
+            vertical: calcs.n.toFixed(0)
+            horizontal: calcs.p.toFixed(0)
+      - Point:
+          coordinates: [calcs.n, calcs.phat]
+          color: black
+          droplines:
+            vertical: calcs.n.toFixed(0)
+            horizontal: calcs.phat.toFixed(0)
+    bottomGraph:
+      xAxis:
+        title: Value of $b$
+        orient: bottom
+        min: 0
+        max: 1
+      yAxis:
+        title: Number of firms
+        orient: left
+        min: 0
+        max: 100
+      objects:
+      - Curve:
+          fn: ((params.p*(1-(x))) - params.c)/((x)*params.c)
+          color: colors.cbblue
+      - Point:
+          coordinates: [params.b, calcs.n]
+          color: black
+          droplines:
+            vertical: params.b.toFixed(2)
+            horizontal:  calcs.n.toFixed(0)
+    sidebar:
+      controls:
+      - title: "Figure 9.10 How barriers to entry affect the equilibrium number of firms"
+        divs:
+        - "html": <font size=3> This graph shows the equilibrium number of firms in an industry with barriers to entry ($b$), and how this changes when parameters such as maximum price and cost per unit of output change, as well as how this can be changed through policy that increases or decreases barriers to entry.   
+        - html: "`<font size=3> <ul> <li> First explore what happens when maximum price and cost per unit of output change by moving the top two sliders. </li> <li> Then explore potential government policies by changing the probability that a firm will fail in entering the industry, $b$. </li> <li> Pay attention to what happens to the equilibrium number of firms, economic profits, the markup, and consumer surplus when changing each parameter. </li> </ul> `"
+        - html:  " <font size=2> <em>Note that you may get very extreme values. These values would not happen in the real world, but are a consequence of the mathematical model. For example, there cannot realistically be a fraction of a firm, but the model gives us the main idea about whether the numbers of firms is increasing or decreasing, and also can tell us if there are values for the parameters such that no industry would exist. </em>"        
+      - title: "Parameters" 
+        divs: 
+         - html: $$\beta = 0.5$$
+        sliders: 
+         - param: p
+           label: \bar{p}
+         - param: c
+           label: c  
+      - title: "Policy instruments"
+        sliders: 
+         - param: b
+           label: b
+      - title: "Outcomes"
+        divs:
+        - html: "`Number of firms: ${calcs.n.toFixed(1)}`"
+          show: (!calcs.nneg) 
+        - html: "`Number of firms: 0`"
+          show: (calcs.nneg) 
+        - html: "`Economic profits: ${calcs.ecprofits.toFixed(1)}`"
+          show: (!calcs.nneg) 
+        - html: "`Consumer surplus: ${calcs.cs.toFixed(1)}`"
+          show: (!calcs.nneg) 
+        - html: "`Markup: ${calcs.markup.toFixed(1)}`"
+          show: (!calcs.nneg) 
+        - html: "`Economic profits + Consumer surplus: ${calcs.eccs.toFixed(1)}`"
+          show: (!calcs.nneg) 
