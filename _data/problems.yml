@@ -1,5 +1,13 @@
 - name: Exercise Lectures
-  <!-- url: Cournot -->
+  url: Cournot
   problems:
     - name: Exercise Lecture 1 (Cournot model)
       url: ExLec1
+    - name: Exercise Lecture 2 (Goods)
+      url: ExLec2
+    - name: Exercise Lecture 3 (Labour)
+      url: ExLec3
+    - name: Exercise Lecture 4 (Credit)
+      url: ExLec4
+    - name: Exercise Lecture 1 (Risk)
+      url: ExLec5
