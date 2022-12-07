@@ -167,5 +167,5 @@ layout:
         
         sliders:
         - {param: n, label: n}
-        - {param: beta, label: beta}
+        - {param: beta, label: z}
          
