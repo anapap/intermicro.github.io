@@ -24,6 +24,11 @@ params:
     min: 0
     max: 1
     round: 0.01
+  - name: phat
+    value: 12
+    min: 8
+    max: 25
+    round: 0.5
     
   
 calcs:
@@ -168,4 +173,5 @@ layout:
         sliders:
         - {param: n, label: n}
         - {param: beta, label: β}
+        - {param: phat, label: p}
          
