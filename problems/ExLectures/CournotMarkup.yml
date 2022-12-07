@@ -103,7 +103,7 @@ layout:
           slope: params.n-1
           color: cbblue
           label: 
-            text: "\\small X^{-i} "
+            text: "\\small X^{-i}"
             y: 36
 
           
@@ -186,6 +186,6 @@ layout:
         sliders:
         - {param: n, label: n}
         - {param: beta, label: β}
-        - {param: phat, label: \\bar{p}} 
+        - {param: phat, label: \bar{p}} 
         - {param: c, label: c}
          
