@@ -63,7 +63,7 @@ layout:
 
 
       - Line:
-          yIntercept: 36
+          yIntercept: 35
           slope: -2
           color: cbgreen
           label: 
