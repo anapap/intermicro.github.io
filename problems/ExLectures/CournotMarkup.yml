@@ -91,7 +91,7 @@ layout:
           
       - Contour:
           level: [(1/(params.n+1)^2)*(params.phat - params.c)^2/(params.beta)]
-          fn: "(20 - 0.5*y)*(x) - 0.5*(x)^2 - 2*(x)"
+          fn: "(params.phat - params.beta*y)*(x) - params.beta*(x)^2 - params.c*(x)"
           color: cbgreen
       - Label:
             coordinates: [31,3]
