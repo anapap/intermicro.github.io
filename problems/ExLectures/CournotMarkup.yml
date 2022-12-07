@@ -70,7 +70,7 @@ layout:
           color: cbgreen
           label: 
             text: "\\text{brf}"
-            x: 16
+            x: 17
             align: left
 
            
@@ -103,8 +103,8 @@ layout:
           slope: params.n-1
           color: cbblue
           label: 
-            text: "\\small X^{-i}=(n-1)x^i "
-            y: 34
+            text: "\\small X^{-i} "
+            y: 36
 
           
 
@@ -135,7 +135,7 @@ layout:
           color: cbgreen
           label: 
             text: "\\text{brf}"
-            x: 16
+            x: 17
             align: left
             
           
@@ -186,6 +186,6 @@ layout:
         sliders:
         - {param: n, label: n}
         - {param: beta, label: β}
-        - {param: phat, label: p}
+        - {param: phat, label: \\bar{p}} 
         - {param: c, label: c}
          
