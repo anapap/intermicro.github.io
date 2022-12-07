@@ -29,6 +29,11 @@ params:
     min: 8
     max: 25
     round: 0.5
+  - name: c
+    value: 4
+    min: 0
+    max: 14
+    round: 0.5
     
   
 calcs:
@@ -58,7 +63,7 @@ layout:
 
 
       - Line:
-          yIntercept: 36
+          yIntercept: (params.phat-params.c)/params.beta
           slope: -2
           color: cbgreen
           label: 
@@ -173,5 +178,6 @@ layout:
         sliders:
         - {param: n, label: n}
         - {param: beta, label: β}
-        - {param: phat, label: p}
+        - {param: phat, label: $\bar{p}$}
+        - {param: c, label: c}
          
