@@ -10,8 +10,8 @@ params:
   - name: n
     value: 3
     min: 0
-    max: 30
-    round: 2
+    max: 20
+    round: 1
   - name: x
     value: 1
     min: 0
