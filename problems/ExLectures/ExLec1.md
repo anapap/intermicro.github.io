@@ -16,4 +16,4 @@ Let's assume now the following values:
 4. Use the graph to confirm your thinkg and explain the intuition. 
 
 
-{% include graph.html category="ExLectures" graph="cournot_markup" %}
+{% include graph.html category="ExLectures" graph="CournotMarkup" %}
