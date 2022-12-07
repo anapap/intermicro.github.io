@@ -46,7 +46,7 @@ calcs:
   cs: (params.beta*(params.phat-calcs.price))*calcs.nash*params.n 
   sum: calcs.profit + calcs.cs
   interY: ((params.phat - params.c)/(params.beta))
-  interX: ((params.phat - params.c)/(2*params.beta))
+  interX: ((params.phat - params.c)/(params.beta*2))
 
 
 layout:
@@ -75,7 +75,7 @@ layout:
 
            
       - Point:
-         coordinates: [calcs.interx,0]
+         coordinates: [calcs.interX,0]
          r: 0
          color: cbgreen
          droplines: 
@@ -98,7 +98,13 @@ layout:
             text: \pi_{n}
             color: cbgreen
 
-
+      - Line:
+          yIntercept: 0
+          slope: params.n-1
+          color: cbblue
+          label: 
+            text: "\\small X^{-i}=(n-1)x^i "
+            y: 34
 
           
 
@@ -166,7 +172,7 @@ layout:
 
     sidebar:
       controls:
-      - title: Figure 9.7 Nash equilibrium output with n firms        
+      - title: Nash equilibrium output with n firms        
         divs:
         - html: <font size=3> This graph shows the Cournot model with n firms, with one arbitrary firm best responding to outputs chosen by all other identical firms, resulting in a Nash equilibrium output. The left panel shows the construction of the best response function for the abitrary firm, each point along which is a different best response for a different n. The right panel shows a ray from the origin corresponding to different total numbers of firms, n. This ray intersects with the arbitrary firm's best response function at the Nash equilibrium level of the arbitrary firm's output and of the output levels of all other firms.
         - html: <font size=3> <ul> <li> Move the slider to see how this nash equilibrium level of output changes when total number of firms, n, changes. </li> <li> Also pay attention to how total output, industry profits, and consumer surplus change, shown below.   </li> </ul> 
