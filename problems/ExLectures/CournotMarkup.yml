@@ -140,14 +140,7 @@ layout:
           label:    
             x: 16
             text: "{p}(n)"
-      - Curve:
-         univariateFunction:
-            fn: (1-params.beta)*(params.c + (1/((x)+1)) * (params.p-params.c))
-         color: colors.cbgreen
-         lineStyle: dotted
-         label:    
-           text: "'\\\\hat{p}(n)'"
-           x: 16
+     
       - Line:
           yIntercept: params.c
           slope: 0
@@ -155,20 +148,8 @@ layout:
           label:            
               text: "cost"
               x: 19 
-      - Point:
-          coordinates: [calcs.n, calcs.p]
-          color: black
-          label:            
-              text: "p(n^*)"
-          droplines:
-            vertical: calcs.n.toFixed(0)
-            horizontal: calcs.p.toFixed(0)
-      - Point:
-          coordinates: [calcs.n, calcs.phat]
-          color: black
-          droplines:
-            vertical: calcs.n.toFixed(0)
-            horizontal: calcs.phat.toFixed(0)      
+    
+           
           
 
     sidebar:
