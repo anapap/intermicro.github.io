@@ -108,6 +108,19 @@ layout:
           yMin: -0.1
           color: indifferenceCurve
           
+          
+       - Line:
+          xIntercept: params.p
+          color: principalAction
+          lineStyle: dotted
+          drag:
+            - horizontal: p
+          show: (!calcs.correct)
+          max: calcs.optimalQ
+          label:
+            y: 0.95
+            text: \text{Principal's choice}
+          
       - Line:
           point: [params.p, calcs.optimalQ]
           color: indifferenceCurve
