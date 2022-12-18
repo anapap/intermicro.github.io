@@ -149,7 +149,14 @@ layout:
               text: "cost"
               x: 19 
     
-           
+       - Point:
+          coordinates: [params.n, calcs.p]
+          color: black
+          label:            
+              text: "p(n^*)"
+          droplines:
+            vertical: params.n.toFixed(0)
+            horizontal: calcs.p.toFixed(0)    
           
 
     sidebar:
@@ -167,7 +174,8 @@ layout:
         
         sliders:
         - {param: n, label: n}
-        - {param: beta, label: β}
-        - {param: p, label: p} 
+        - {param: p, label: p}     
         - {param: c, label: c}
+        - {param: beta, label: β}
+        
          
