@@ -108,7 +108,13 @@ layout:
           yMin: -0.1
           color: indifferenceCurve
           
-  
+      - Line:
+          point: [params.p, calcs.optimalQ]
+          color: indifferenceCurve
+          label:
+            y: 0.95
+           # text: "`\\\\frac{q}{p} =${(calcs.optimalQ/params.p).toFixed(3)}`"
+            align: left
 
                      
           
