@@ -32,8 +32,8 @@ calcs:
 
 
 layout:
-  TwoHorizontalGraphsPlusSidebar:
-    leftGraph:
+  OneGraphPlusSidebar:
+    graph:
       xAxis:
         max: 50
         title: Price offered $(p)$
@@ -108,51 +108,7 @@ layout:
           yMin: -0.1
           color: indifferenceCurve
           
-    rightGraph:
-      xAxis:
-        max: 100
-        title: A's value $(V)$
-        ticks: 1
-      yAxis:
-        max: 1
-        title: Quality Offered $(q)$
-        ticks: 1
-
-        
-      objects:
-            
-      - Contour:
-          level: params.u
-          fn: "params.p*(1-y) - x*(1-y)*(1-y)"
-          color: indifferenceCurve
-          
-      - Point:
-          coordinates: [calcs.value, params.q]
-          color: green
-          show: (calcs.correct)
-          droplines:
-            horizontal: params.q.toFixed(2)
-            vertical: calcs.value.toFixed(2)
-       
-      - Point:
-          coordinates: [calcs.value, params.q]
-          color: principalAction
-          show: (!calcs.correct)
-          droplines:
-            horizontal: params.q.toFixed(2) 
-            vertical: calcs.value.toFixed(2)
-           
-      - Line:
-          yIntercept: params.q
-          color: principalAction
-          show: (!calcs.correct && !params.showBestResponse)
-          max: calcs.value
-            
-      - Line:
-          yIntercept: params.q
-          color: green
-          show: (calcs.correct | params.showBestResponse)
-          max: calcs.value
+  
 
                      
           
