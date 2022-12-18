@@ -1,0 +1,183 @@
+schema: BowlesHallidaySchema
+colors:
+  indifferenceCurve: "'#009E73'"
+  otherPlayerAction: lightgrey
+  principalAction: "'#0072B2'"
+  bestResponse: "'#CC79A7'"
+params:
+  - name: p
+    value: 40
+    min: 10
+    max: 45
+    round: 5
+  - name: q
+    value: 0
+    min: 0
+    max: 1
+    round: 0.001
+  - name: u
+    value: 5
+  - name: showBestResponse
+    value: false
+    
+  
+calcs:
+  theta: (1/(1-params.q)) #1/(1-q)
+  utility: (params.p*calcs.theta - calcs.theta*calcs.theta*params.u)
+  optimalQ: (1 - (2*params.u)/params.p)
+  tooLow: (calcs.optimalQ - params.q > 0.01)
+  tooHigh: (params.q - calcs.optimalQ > 0.01)
+  correct: (abs(params.q - calcs.optimalQ) <= 0.01)
+  value: (params.p-((params.u)/(1-params.q)))*((1)/(1-params.q))
+
+
+layout:
+  TwoHorizontalGraphsPlusSidebar:
+    leftGraph:
+      xAxis:
+        max: 50
+        title: Price offered $(p)$
+        ticks: 1
+      yAxis:
+        max: 1
+        title: Quality, prob. of renewing contract $(q)$
+        ticks: 1
+        
+      objects:
+
+      # Point object at coordinates (p,q)
+      - Point:
+          coordinates: [params.p, params.q]
+          show: (!calcs.correct && !params.showBestResponse)
+          droplines:
+            horizontal: params.q.toFixed(2)
+          
+      - Point:
+          coordinates: [params.p, calcs.optimalQ]
+          color: green
+          show: (calcs.correct | params.showBestResponse)
+          droplines:
+            horizontal: calcs.optimalQ.toFixed(2)
+
+      - Line:
+          xIntercept: params.p
+          color: otherPlayerAction
+          label:
+            y: 0.95
+            text: \text{Principal's choice}
+            
+      - Label:
+          coordinates: [params.p, AXIS]
+          text: params.p
+          
+      - Line:
+          yIntercept: params.q
+          color: principalAction
+          show: (!calcs.correct && !params.showBestResponse)
+          max: params.p
+          drag:
+            - vertical: q
+          label:
+            x: 2
+            text: \text{Agent's response}
+            align: left
+            
+      - Line:
+          yIntercept: calcs.optimalQ
+          color: green
+          show: (calcs.correct | params.showBestResponse)
+          max: params.p
+          label:
+            x: 2
+            text: \text{Agent's best response}
+            align: left
+            
+      - Curve:
+          fn: "1 - (2*params.u)/(x)"
+          show: params.showBestResponse
+          color: bestResponse
+          label:
+            x: 12
+            text: \text{Brf}
+            
+      - ContourMap:
+          levels: [5, 11.25, 20, 31.25, 45, 61.25, 80, 101.25]
+          fn: "((x)-params.u/(1-(y)))/(1-(y))"
+          xMin: 10
+          xMax: 51
+          yMin: -0.1
+          color: indifferenceCurve
+          
+    rightGraph:
+      xAxis:
+        max: 100
+        title: A's value $(V)$
+        ticks: 1
+      yAxis:
+        max: 1
+        title: Quality Offered $(q)$
+        ticks: 1
+
+        
+      objects:
+            
+      - Contour:
+          level: params.u
+          fn: "params.p*(1-y) - x*(1-y)*(1-y)"
+          color: indifferenceCurve
+          
+      - Point:
+          coordinates: [calcs.value, params.q]
+          color: green
+          show: (calcs.correct)
+          droplines:
+            horizontal: params.q.toFixed(2)
+            vertical: calcs.value.toFixed(2)
+       
+      - Point:
+          coordinates: [calcs.value, params.q]
+          color: principalAction
+          show: (!calcs.correct)
+          droplines:
+            horizontal: params.q.toFixed(2) 
+            vertical: calcs.value.toFixed(2)
+           
+      - Line:
+          yIntercept: params.q
+          color: principalAction
+          show: (!calcs.correct && !params.showBestResponse)
+          max: calcs.value
+            
+      - Line:
+          yIntercept: params.q
+          color: green
+          show: (calcs.correct | params.showBestResponse)
+          max: calcs.value
+
+
+                     
+          
+
+    sidebar:
+      controls:
+      - title: Figure 10.7 The agent’s best-response function
+        
+        divs:
+        - html:  "`<font size=3>  <ul> <li> Use the slider  to set the principal's price offer ($\\p$). </li> <li> On the left-hand graph, drag the blue line up and down to determine the agent's best reponse to this offer.</li> <li> Choose a different price offer ($\\p$) and repeat. </li> <li> To see the entire best-response function, check the box labeled \"show best-response function\".  </li> <li>  The right-hand graph shows the agent's value at different levels of quality, for a given price. Note that value is on the x-axis, so moving horizontally to the right is better for the agent. </li> </ul> `"
+        
+        sliders:
+        - {param: p, label: p}
+       
+        checkboxes:
+          - param: showBestResponse
+            label: \text{Show best-response function}
+        
+            
+    explanation:
+        divs:
+          - html: The agent could do better by increasing their quality. 
+            show: (calcs.tooLow && !params.showBestResponse)
+          - html: The agent could do better by reducing their quality. 
+            show: (calcs.tooHigh && !params.showBestResponse)
+          - html: "`Producing at a quality of ${calcs.optimalQ.toFixed(2)} is this agent's best response to a price of ${params.p}.`"
+            show: (calcs.correct || params.showBestResponse)  
