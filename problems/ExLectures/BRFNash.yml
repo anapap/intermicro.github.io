@@ -109,88 +109,50 @@ layout:
           color: indifferenceCurve
           
     rightGraph:
-         xAxis:
-        max: 50
-        title: Price offered $(p)$
+      xAxis:
+        max: 100
+        title: A's value $(V)$
         ticks: 1
       yAxis:
         max: 1
-        title: Quality, prob. of renewing contract $(q)$
+        title: Quality Offered $(q)$
         ticks: 1
+
         
       objects:
-
-      # Point object at coordinates (p,q)
+            
+      - Contour:
+          level: params.u
+          fn: "params.p*(1-y) - x*(1-y)*(1-y)"
+          color: indifferenceCurve
+          
       - Point:
-          coordinates: [params.p, params.q]
-          show: (!calcs.correct && !params.showBestResponse)
+          coordinates: [calcs.value, params.q]
+          color: green
+          show: (calcs.correct)
           droplines:
             horizontal: params.q.toFixed(2)
-          
+            vertical: calcs.value.toFixed(2)
+       
       - Point:
-          coordinates: [params.p, calcs.optimalQ]
-          color: green
-          show: (calcs.correct | params.showBestResponse)
+          coordinates: [calcs.value, params.q]
+          color: principalAction
+          show: (!calcs.correct)
           droplines:
-            horizontal: calcs.optimalQ.toFixed(2)
-
-      - Line:
-          xIntercept: params.p
-          color: otherPlayerAction
-          label:
-            y: 0.95
-            text: \text{Principal's choice}
-            
-      - Label:
-          coordinates: [params.p, AXIS]
-          text: params.p
-          
+            horizontal: params.q.toFixed(2) 
+            vertical: calcs.value.toFixed(2)
+           
       - Line:
           yIntercept: params.q
           color: principalAction
           show: (!calcs.correct && !params.showBestResponse)
-          max: params.p
-          drag:
-            - vertical: q
-          label:
-            x: 2
-            text: \text{Agent's response}
-            align: left
+          max: calcs.value
             
       - Line:
-          yIntercept: calcs.optimalQ
+          yIntercept: params.q
           color: green
           show: (calcs.correct | params.showBestResponse)
-          max: params.p
-          label:
-            x: 2
-            text: \text{Agent's best response}
-            align: left
-            
-      - Curve:
-          fn: "1 - (2*params.u)/(x)"
-          show: params.showBestResponse
-          color: bestResponse
-          label:
-            x: 12
-            text: \text{Brf}
-            
-      - ContourMap:
-          levels: [5, 11.25, 20, 31.25, 45, 61.25, 80, 101.25]
-          fn: "((x)-params.u/(1-(y)))/(1-(y))"
-          xMin: 10
-          xMax: 51
-          yMin: -0.1
-          color: indifferenceCurve
-          
-      - Line:
-          point: [params.p, calcs.optimalQ]
-          color: indifferenceCurve
-          label:
-            y: 0.95
-           # text: "`\\\\frac{q}{p} =${(calcs.optimalQ/params.p).toFixed(3)}`"
-            align: left  
-
+          max: calcs.value
 
                      
           
