@@ -135,7 +135,7 @@ layout:
         ticks: 2
       objects:
       - Curve:
-          fn: params.c + (1/(params.n+1)) * (params.p-params.c)
+          fn: params.c + (1/((x)+1)) * (params.p-params.c)
           color: colors.cbgreen
           label:    
             x: 16
