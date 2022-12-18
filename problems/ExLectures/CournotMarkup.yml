@@ -48,7 +48,7 @@ calcs:
   interY: ((params.p - params.c)/(params.beta))
   interX: ((params.p - params.c)/(params.beta*2))
   n : ((params.p*(1-params.b)) - params.c)/(params.b*params.c)
-  p : (params.c + (1/(calcs.n+1)) * (params.p-params.c))
+  p : (params.c + (1/(params.n+1)) * (params.p-params.c))
   phat : (1-params.b)*calcs.p
   ecprofits: (calcs.n*(1/(calcs.n+1)^2))*((params.p-params.c)^2/(params.b))
   <!-- cs: (1/2)*(params.p - (params.c + ((1/(calcs.n+1))*(params.p -params.c)  )) )*(calcs.n/(calcs.n+1))*( (params.p - params.c)/(params.b)) -->
