@@ -93,15 +93,7 @@ layout:
             x: 0.7
             position: t
             
-       - Curve:
-          fn: "params.B + params.ubar + params.ubar*(1-params.t)(1-(x))/(params.t*(1-(x)-params.q*(x))) "
-          color: cbgreen
-          show: (params.Monopsony)
-          samplePoints: 2000
-          label:
-            text: "'w^N(H)'"
-            x: 0.7
-            position: t
+       
            
 
            
