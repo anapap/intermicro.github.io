@@ -1,0 +1,91 @@
+schema: BowlesHallidaySchema
+colors:
+  indifferenceCurve: "'#009E73'"
+  otherPlayerAction: lightgrey
+  principalAction: "'#0072B2'"
+  bestResponse: "'#009E73'"
+params:
+  - name: k
+    value: 0.5
+    min: 0.5
+    max: 1
+    round: 0.001
+  - name: b
+    value: 0
+    min: 0
+    max: 0.55
+    round: 0.01
+  - name: rho
+    value: 0.05
+    min: 0
+    max: 0.5
+    round: 0.01
+  - name: q
+    value: 1  
+    
+calcs:
+  f: (.5 + ((calcs.x) / (2))(1-params.k))
+  x: ((0.5 - sqrt(.25-(4)((1-params.k)/(2))((1+params.rho)/(1-params.b))))/(1-params.k))
+  threshold: (.25-(4)((1-params.k)/(2))((1+params.rho)/(1-params.b)))
+  correct: (calcs.threshold >= 0)
+  x1: (2((1+params.rho)/(1-params.b)))
+  
+
+
+layout:
+  OneGraphPlusSidebar:
+    graph:
+      xAxis:
+        max: 10
+        title: Interest factor, $(\delta)$
+        ticks: 2
+      yAxis:
+        max: 1.05
+        title: Probability of failure (risk), $(f)$
+        ticks: 2
+        
+      objects:
+         
+      - Point:
+          coordinates: [calcs.x, calcs.f]
+          color: black
+          show: (calcs.correct & (params.k <1 ))
+          droplines:
+            horizontal: calcs.f.toFixed(2)
+            vertical: calcs.x.toFixed(2)
+      
+      - Point:
+          coordinates: [calcs.x1, 0.5]
+          color: black
+          show: (params.k == 1)
+          droplines:
+            horizontal: calcs.x1.toFixed(2)
+            vertical: 0.5
+            
+      - Curve:
+          fn: "  1 - ((1 + params.rho)/(1 - params.b))*(1/(x))"        
+          color: blue          
+          label:
+            x: 9
+            text: \hat{\pi}_0
+            
+      - Curve:
+          fn: " .5 + ((x) / (2 * params.q)) * (1 - params.k)" 
+          color: green
+          label:
+            x: .9
+            text: \text{BRF}
+                 
+ 
+ 
+    sidebar:
+      controls:
+      - title: Figure 12.12 Credit market exclusion and credit constraints
+
+        sliders:
+        - {param: k, label: k} 
+        - {param: rho, label: \rho}   
+        - {param: b, label: b} 
+        
+        divs:
+        - html:  "`<font size=3>  <ul> <li> Use the sliders above to vary equity, $k$, the opportunity cost of capital, $\\\\rho$, and barriers to entry, $b$, and notice the implications for borrowers with different amounts of equity.</li> </ul> `"
