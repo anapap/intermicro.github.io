@@ -1,1 +1,254 @@
-x
+schema: BowlesHallidaySchema
+colors:
+  cbblue: "'#0072B2'"
+  cbmustard: "'#E69F00'"
+  cbgreen: "'#009E73'"
+  cbyellow: "'#F0E442'"
+  cbred: "'#CC79A7'"
+  cborange: "'#D55E00'"
+params:
+  - name: rrsx
+    value: .747
+    min: 0
+    max: 15
+    round: 0.05
+  - name: insx
+    value: 5.53
+    min: 0
+    max: 15
+    round: 0.05
+  - name: insbx
+    value: 10.5
+    min: 0
+    max: 15
+    round: 0.05
+  - name: a
+    value: 7.4
+    min: 0
+    max: 18
+    round: 0.05
+   
+    
+calcs:
+  rrsy: (14 - (3.99 - (1/3)*params.rrsx)^2)
+  insuranceay: (7.4 + .36*params.insx)
+  insuranceby: (10 + .36*params.insbx)
+  correct1: (abs(5.6 - params.rrsx) <= 0.01)
+  correct2: (abs(1.6 - params.insx) <= 0.01)
+  correct3: (abs(10-params.a) <= 0.01)
+  correct4: (abs(1.8-params.insbx) <= 0.01)
+  toolow1: params.rrsx < 5.6
+  toohigh1: params.rrsx > 5.6
+  toolow2: params.insx < 1.6
+  toohigh2: params.insx > 1.6
+  toolow3: params.a < 10
+  toohigh3: params.a > 10
+  toolow4: params.insbx < 1.8
+  toohigh4: params.insbx > 1.8
+  utility1: calcs.rrsy - 0.125(params.rrsx)^2
+  utility2:  calcs.insuranceay - 0.125(params.insx)^2
+  utility3: calcs.insuranceby - 0.125(params.insbx)^2
+
+
+
+
+layout:
+  OneGraphPlusSidebar:        
+    graph:
+      xAxis:
+        title: Degree of risk, $\Delta$
+        orient: bottom
+        min: 0
+        max: 15
+        ticks: 0
+
+      yAxis:
+        title: Expected income, $\hat{y}$
+        orient: left
+        min: 0
+        max: 18
+        ticks: 0
+
+      objects:
+      
+      - Curve: 
+         univariateFunction:
+            fn: 14 - (3.99 - (1/3)(x))^2
+         color: cbgreen
+         label:
+            text: "'\\\\hat{y}(\\\\Delta) '"
+            x: 13
+            
+         
+                   
+      - Curve: 
+         univariateFunction:
+            fn: 2.6 + 0.125(x)^2
+         color: cbblue
+         label:
+            text: "'u_1 '"
+            x: 1
+            
+          
+      - Curve: 
+         univariateFunction:
+            fn: 5.6 + 0.125(x)^2
+         color: cbblue
+         label:
+            text: "'u_2 '"
+            x: 1
+         
+      - Curve: 
+         univariateFunction:
+            fn: 7.7 + 0.115(x)^2
+         color: cbblue
+         label:
+            text: "'u_3 '"
+            x: 1
+
+      - Curve: 
+         univariateFunction:
+            fn: 10.35 + 0.1(x)^2
+         color: cbblue
+         label:
+            text: "'u_4 '"
+            x: 1
+          
+      - Line:
+          yIntercept: params.a
+          slope: 0.36   
+          color: cborange
+          show: (calcs.correct1 & calcs.correct2 & !calcs.correct3)
+          drag:
+           - vertical: a
+   
+      - Line:
+          yIntercept: params.a
+          slope: 0.36   
+          color: cborange
+          show: (calcs.correct1 & !calcs.correct2 & !calcs.correct3)
+   
+      - Line:
+          yIntercept: params.a
+          slope: 0.36   
+          color: cbgreen
+          show: (calcs.correct3)
+
+           
+      - Point:
+          coordinates: [params.rrsx, calcs.rrsy]
+          color: black
+          drag: 
+           - horizontal: rrsx
+          show: (!calcs.correct1)
+          droplines:
+            vertical: params.rrsx.toFixed(2)
+            horizontal: calcs.rrsy.toFixed(2)
+       
+      - Point:
+          coordinates: [params.rrsx, calcs.rrsy]
+          color: cbgreen
+          show: (calcs.correct1)
+          droplines:
+            vertical: params.rrsx.toFixed(2) 
+            horizontal: calcs.rrsy.toFixed(2)
+               
+      - Point:
+          coordinates: [params.insx, calcs.insuranceay]
+          color: black
+          drag: 
+           - horizontal: insx
+          show: (calcs.correct1 & !calcs.correct2)
+          droplines:
+            vertical: params.insx.toFixed(2)
+            horizontal: calcs.insuranceay.toFixed(2)
+                  
+      - Point:
+          coordinates: [params.insx, calcs.insuranceay]
+          color: cbgreen
+          show: (calcs.correct1 & calcs.correct2)
+          droplines:
+            vertical: params.insx.toFixed(2) 
+            horizontal: calcs.insuranceay.toFixed(2)  
+            
+      - Point:
+          coordinates: [params.insbx, calcs.insuranceby]
+          color: black
+          drag: 
+           - horizontal: insbx
+          show: (calcs.correct3 & !calcs.correct4)
+          droplines:
+            vertical: params.insbx.toFixed(2)
+            horizontal: calcs.insuranceby.toFixed(2)
+            
+      - Point:
+          coordinates: [params.insbx, calcs.insuranceby]
+          color: cbgreen
+          show: (calcs.correct3 & calcs.correct4)
+          droplines:
+            vertical: params.insbx.toFixed(2) 
+            horizontal: calcs.insuranceby.toFixed(2)  
+            
+    sidebar:
+      controls:
+      - title:  "Figure 13.14 Effect of insurance on risk-taking and utility: Two tangencies"
+        divs:        
+        - html:  "`<font size=3>   <ul> <li> Follow the steps below to determine Juliana’s utility-maximizing risk taking before insurance is available, and utility-maximizing risk and and amount of insurance when it is available. Pay attention to her utility, amount of insurance purchased, and degree of risk, all shown below. You can refresh the page at any point to start over. </li> </ul> <ul> <li> <b> Step 1:</b> Move the black point to choose the optimal degree of risk when insurance is unavailable. </li> </ul> `"
+        - html: "`Utility: ${calcs.utility1.toFixed(2)}`"
+        - html: "`Insurance purchased: 0`"
+        - html: "`Degree of risk: ${params.rrsx.toFixed(2)}`"
+        show: (!calcs.correct1)
+        
+      - title: "Figure 13.14 Effect of insurance on risk-taking and utility: Two tangencies"
+        divs:
+        - html:  "`<font size=3>  <ul> <li> Follow the steps below to determine Juliana’s utility-maximizing risk taking before insurance is available, and utility-maximizing risk and and amount of insurance when it is available. Pay attention to her utility, amount of insurance purchased, and degree of risk, all shown below.  You can refresh the page at any point to start over. </li> </ul>   <ul> <li> <b> Step 1:</b> Move the black point to choose the optimal degree of risk when insurance is unavailable. </li> </ul> <ul> <li><b> Step 2: </b>  Now, an insurance contract is available. Starting from the optimal degree of risk when insurance was not available, move the black point to \"buy\" the optimal amount of risk (through paying an insurance premium).  </li> </ul>`"
+        - html: "`Utility: ${calcs.utility2.toFixed(2)}`"
+        - html: "`Insurance purchased: ${(params.rrsx-params.insx).toFixed(2)}`"
+        - html: "`Degree of risk: ${params.insx.toFixed(2)}`"
+        show: (calcs.correct1 & !calcs.correct2)
+        
+      - title: "Figure 13.14 Effect of insurance on risk-taking and utility: Two tangencies"
+        divs:
+        - html:  "`<font size=3>   <ul> <li> Follow the steps below to determine Juliana’s utility-maximizing risk taking before insurance is available, and utility-maximizing risk and and amount of insurance when it is available. Pay attention to her utility, amount of insurance purchased, and degree of risk, all shown below.  You can refresh the page at any point to start over. </li> </ul>  <ul> <li> <b> Step 1:</b> Move the black point to choose the optimal degree of risk when insurance is unavailable. </li> </ul> <ul> <li><b> Step 2: </b>  Now, an insurance contract is available. Starting from the optimal degree of risk when insurance was not available, move the black point to \"buy\" the optimal amount of risk (through paying an insurance premium).  </li> </ul> <ul> <li> <b> Step 3: </b> But, given insurance is available, can Juliana do better by jointly buying insurance and choosing a risk level? Drag the insurance line along the risk-return schedule to determine her optimal choice of risk. </li> </ul>   `"
+        - html: "`Utility: ${calcs.utility2.toFixed(1)}`"
+        - html:  "`Insurance purchased: ${(params.rrsx-params.insx).toFixed(2)}`"
+        - html: "`Degree of risk: ${params.insx.toFixed(2)}`"
+        show: (calcs.correct2 & !calcs.correct3)
+        
+
+      - title: "Figure 13.14 Effect of insurance on risk-taking and utility: Two tangencies"
+        divs:
+        - html:  "`<font size=3>  <ul> <li> Follow the steps below to determine Juliana’s utility-maximizing risk taking before insurance is available, and utility-maximizing risk and and amount of insurance when it is available. Pay attention to her utility, amount of insurance purchased, and degree of risk, all shown below.  You can refresh the page at any point to start over. </li> </ul>    <ul> <li> <b> Step 1:</b> Move the black point to choose the optimal degree of risk when insurance is unavailable. </li> </ul> <ul> <li><b> Step 2: </b>  Now, an insurance contract is available. Starting from the optimal degree of risk when insurance was not available, move the black point to \"buy\" the optimal amount of risk (through paying an insurance premium).  </li> </ul> <ul> <li> <b> Step 3: </b> But, given insurance is available, can Juliana do better by jointly buying insurance and choosing a risk level? Drag the insurance line along the risk-return schedule to determine her optimal choice of risk. </li> </ul>  <ul> <li> <b> Step 4: </b> Given the optimal choice of risk just determined, move the black point to determine the optimal amount of insurance to buy. </li> </ul>   `"
+        - html: "`Utility: ${calcs.utility3.toFixed(1)}`"
+        - html: "`Insurance purchased: ${(10.5-params.insbx).toFixed(2)}`"
+        - html: "`Degree of risk: ${params.insbx.toFixed(2)}`"       
+        show: (calcs.correct3 & !calcs.correct4)
+        
+      - title: "Figure 13.14 Effect of insurance on risk-taking and utility: Two tangencies"
+        divs:
+        - html:  "`<font size=3>  <ul> <li> Follow the steps below to determine Juliana’s utility-maximizing risk taking before insurance is available, and utility-maximizing risk and and amount of insurance when it is available. Pay attention to her utility, amount of insurance purchased, and degree of risk, all shown below.  You can refresh the page at any point to start over. </li> </ul>   <ul> <li> <b> Step 1:</b> Move the black point to choose the optimal degree of risk when insurance is unavailable. </li> </ul> <ul> <li><b> Step 2: </b>  Now, an insurance contract is available. Starting from the optimal degree of risk when insurance was not available, move the black point to \"buy\" the optimal amount of risk (through paying an insurance premium).  </li> </ul> <ul> <li> <b> Step 3: </b> But, given insurance is available, can Juliana do better by jointly buying insurance and choosing a risk level? Drag the insurance line along the risk-return schedule to determine her optimal choice of risk. </li> </ul>  <ul> <li> <b> Step 4: </b> Given the optimal choice of risk just determined, move the black point to determine the optimal amount of insurance to buy. </li> </ul>  <ul> <li> Well done! Notice that, when insurance is available, Juliana is able to take a higher degree of risk and enjoy a greater expected income. </li> </ul>  `"
+        - html: "`Utility: ${calcs.utility3.toFixed(2)}`"
+        - html: "`Insurance purchased: ${(10.5-params.insbx).toFixed(2)}`"
+        - html: "`Degree of risk: ${params.insbx.toFixed(2)}`"       
+        show: (calcs.correct4)
+
+
+
+    explanation:
+        divs:
+          - html: Juliana could do better by increasing her degree of risk.
+            show: (calcs.toolow1 & !calcs.correct1)
+          - html: Juliana could do better by reducing her degree of risk.
+            show: (calcs.toohigh1 & !calcs.correct1)
+          - html: Juliana could do better by increasing the amount of insurance purchased.
+            show: (calcs.toolow2 & calcs.correct1 & !calcs.correct2 & !calcs.firsta)
+          - html: Juliana could do better by decreasing the amount of insurance purchased.
+            show: (calcs.toohigh2 & calcs.correct1 & !calcs.correct2 & !calcs.firsta)
+          - html: Juliana could do better by increasing her degree of risk.
+            show: (calcs.toolow3 & calcs.correct1 & calcs.correct2 & !calcs.correct3)
+          - html: The agent could do better by decreasing her degree of risk.
+            show: (calcs.toohigh3 & calcs.correct1 & calcs.correct2 & !calcs.correct3)
+          - html: The agent could do better by increasing the amount of insurance purchased.
+            show: (calcs.toolow4 & calcs.correct1 & calcs.correct2 & calcs.correct3 & !calcs.correct4)
+          - html: The agent could do better by decreasing the amount of insurance purchased.
+            show: (calcs.toohigh4 & calcs.correct1 & calcs.correct2 & calcs.correct3 & !calcs.correct4)
