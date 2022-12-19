@@ -109,25 +109,15 @@ layout:
           color: indifferenceCurve
           
           
-       - Line:
-          xIntercept: params.p
-          color: principalAction
-          lineStyle: dotted
+       - Point:
+          coordinates: [params.p, calcs.optimalQ]
+          color: green
           drag:
             - horizontal: p
-          show: (!calcs.correct)
-          max: calcs.optimalQ
-          label:
-            y: 0.95
-            text: \text{Principal's choice}
-          
-      - Line:
-          point: [params.p, calcs.optimalQ]
-          color: indifferenceCurve
-          label:
-            y: 0.95
-           # text: "`\\\\frac{q}{p} =${(calcs.optimalQ/params.p).toFixed(3)}`"
-            align: left
+          show: (calcs.correct)
+          droplines:
+            horizontal: calcs.optimalQ.toFixed(2)
+            vertical: params.p
 
                      
           
