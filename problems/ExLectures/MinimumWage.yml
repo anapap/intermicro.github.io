@@ -1,0 +1,340 @@
+schema: BowlesHallidaySchema
+colors:
+  cbblue: "'#0072B2'"
+  cbmustard: "'#E69F00'"
+  cbgreen: "'#009E73'"
+  cbyellow: "'#F0E442'"
+  cbred: "'#CC79A7'"
+  cborange: "'#D55E00'"
+params:
+  - name: ubar
+    value: 0.0157
+    min: 0
+    max: 1
+    round: 0.01
+  - name: minIncrease
+    value: false
+  - name: minDecrease
+    value: false
+  - name: minNothing
+    value: false
+  - name: he
+    value: 1
+    min: .18
+    max: 1.05
+    round: 0.005
+  - name: w
+    value: 0
+    min: 0
+    max: 40
+    round: 0.01
+  
+calcs:
+  U: (0.9-calcs.H)
+  correcthe: (abs(0.465 - params.he) <= 0.0001)
+  correcthe1: (abs((7/13) - params.he) <= 0.002)
+  correcthe2: (abs((7/19) - params.he) <= 0.002)
+  optimalc: (7/params.he)
+  optimalw: (2 + 3 + (3 - 2.4 +  2.4*(params.he) )/(0.8*(1 - (params.he))))
+  cost: (5 + (3  - 3*.8 +  3*0.8*(params.he))/(0.8*(1 - (params.he)))+ (3*(params.he))/(0.8*(1-(params.he))^2))
+  tooLow: ((0.465 - params.he) > 0.001)
+  tooHigh: ((params.he - 0.465) > 0.001)
+  tooLow1: (((7/13) - params.he) > 0.001)
+  tooHigh1: ((params.he - (7/13)) > 0.001)
+  tooLow2: (((7/19) - params.he) > 0.001)
+  tooHigh2: ((params.he - (7/19)) > 0.001)
+  constantC1: (params.he - (5.8/8.8) > 0.001)
+  constantC2: (params.he - (10.6/13.6) > 0.001)
+
+layout:
+  OneGraphPlusSidebar:
+    graph:
+      xAxis:
+        min: 0
+        max: 1.05
+        title: Hours of employment as a fraction of local labor supply, he
+        ticks: 4
+      yAxis:
+        intercept: 0
+        max: 40
+        title: Wages, costs, and revenues (\$)
+        ticks: 4
+        
+      objects:
+            
+      - Point:
+          coordinates: [params.he, calcs.optimalc]
+          show: (!calcs.correcthe && !params.minIncrease |params.minNothing && !params.minDecrease)
+          drag: 
+            - horizontal: he
+            - vertical: w
+          droplines:
+           # horizontal: calcs.optimalc.toFixed(0)
+            vertical: params.he.toFixed(2)
+            
+      - Point:
+          coordinates: [params.he, calcs.optimalc]
+          show: (calcs.correcthe && !params.minIncrease |params.minNothing && !params.minDecrease)
+          color: cbgreen
+          drag: 
+            - horizontal: he
+            - vertical: w
+          droplines:
+           # horizontal: calcs.optimalc.toFixed(0)
+            vertical: params.he.toFixed(2)
+            
+      - Point:
+          coordinates: [params.he, calcs.optimalw]
+          show: (calcs.correcthe && !params.minIncrease |params.minNothing && !params.minDecrease)
+          drag: 
+            - horizontal: he
+            - vertical: w
+          color: cbgreen
+          droplines:
+            horizontal: calcs.optimalw.toFixed(0)
+            
+      - Point:
+          coordinates: [params.he, calcs.optimalc]
+          show: (!calcs.correcthe2 && !params.minIncrease && !params.minNothing && params.minDecrease)
+          drag: 
+            - horizontal: he
+            - vertical: w
+          droplines:
+          #  horizontal: calcs.optimalc.toFixed(0)
+            vertical: params.he.toFixed(2)
+            
+      - Point:
+          coordinates: [params.he, calcs.optimalc]
+          show: (calcs.correcthe2 && !params.minIncrease && !params.minNothing && params.minDecrease)
+          color: cbgreen
+          drag: 
+            - horizontal: he
+            - vertical: w
+          droplines:
+            horizontal: calcs.optimalc.toFixed(0)
+            vertical: params.he.toFixed(2)
+            
+      - Point:
+          coordinates: [params.he, calcs.optimalc]
+          show: (!calcs.correcthe1 && params.minIncrease && !params.minNothing && !params.minDecrease)
+          drag: 
+            - horizontal: he
+            - vertical: w
+          droplines:
+          #  horizontal: calcs.optimalc.toFixed(0)
+            vertical: params.he.toFixed(2)
+            
+      - Point:
+          coordinates: [params.he, calcs.optimalc]
+          show: (calcs.correcthe1 && params.minIncrease && !params.minNothing && !params.minDecrease)
+          drag: 
+            - horizontal: he
+            - vertical: w
+          color: cbgreen
+          droplines:
+            horizontal: calcs.optimalc.toFixed(0)
+            vertical: params.he.toFixed(2)
+            
+      - Curve:
+          fn: "7/(x) "
+          min: 0.01
+          max: 1.05
+          color: cbblue
+          label:
+            x: 0.2
+            text: "mrph"
+            
+      - Curve:
+          fn: "2 + 3 + (3 - 2.4 +  2.4*(x) )/(0.8*(1 - (x)))"      
+          min: 0
+          max: 0.99
+          color: cbgreen
+          show: (!params.minIncrease && !params.minDecrease)
+          label:
+            x: 0.89
+            text: "ach" 
+            
+
+      - Curve:
+          fn: "2 + 3 + (3 - 2.4 +  2.4*(x) )/(0.8*(1 - (x)))"      
+          min: 0
+          max: (5.8/8.8)
+          color: cbgreen
+          lineStyle: dotted
+          show: (params.minIncrease | params.minNothing && !params.minDecrease)
+          label:
+            x: 0.89
+            text: "ach" 
+
+      - Curve:
+          fn: "2 + 3 + (3 - 2.4 +  2.4*(x) )/(0.8*(1 - (x)))"      
+          min: (5.8/8.8)
+          max: 0.99
+          color: cbgreen
+          show: (params.minIncrease &!params.minNothing & !params.minDecrease)
+          label:
+            x: 0.89
+            text: "ach" 
+
+      - Curve:
+          fn: "2 + 3 + (3 - 2.4 +  2.4*(x) )/(0.8*(1 - (x)))"      
+          min: 0
+          max: (10.6/13.6)
+          color: cbgreen
+          lineStyle: dotted
+          show: (params.minDecrease)
+          label:
+            x: 0.89
+            text: "ach" 
+
+      - Curve:
+          fn: "2 + 3 + (3 - 2.4 +  2.4*(x) )/(0.8*(1 - (x)))"      
+          min: (10.6/13.6)
+          max: 0.99
+          color: cbgreen
+          show: (params.minDecrease)
+          label:
+            x: 0.89
+            text: "ach" 
+            
+      - Curve:
+          fn:  "5 + (3  - 3*.8 +  3*0.8*(x))/(0.8*(1 - (x)))+ (3*(x))/(0.8*(1-(x))^2)"
+          min: 0
+          max: 0.99
+          color: cbgreen
+          show: (!params.minIncrease && !params.minDecrease )
+          label:
+            x: 0.669
+            text: "mch"
+
+
+      - Curve:
+          fn:  "5 + (3  - 3*.8 +  3*0.8*(x))/(0.8*(1 - (x)))+ (3*(x))/(0.8*(1-(x))^2)"
+          min: 0
+          max: 0.99
+          color: cbgreen
+          show: (params.minDecrease)
+          lineStyle: dotted
+          label:
+            x: 0.669
+            text: "mch"
+
+      - Curve:
+          fn:  "5 + (3  - 3*.8 +  3*0.8*(x))/(0.8*(1 - (x)))+ (3*(x))/(0.8*(1-(x))^2)"
+          min: 0
+          max: (5.8/8.8)
+          color: cbgreen
+          lineStyle: dotted
+          show: (params.minIncrease &!params.minNothing & !params.minDecrease)
+          label:
+            x: 0.669
+            text: "mch"
+
+      - Curve:
+          fn:  "5 + (3  - 3*.8 +  3*0.8*(x))/(0.8*(1 - (x)))+ (3*(x))/(0.8*(1-(x))^2)"
+          min: (5.8/8.8)
+          max: 0.99
+          color: cbgreen
+          show: (params.minIncrease &!params.minNothing & !params.minDecrease)
+          label:
+            x: 0.669
+            text: "mch"
+
+      - Line:
+          yIntercept: 8
+          color: purple
+          lineStyle: dotted
+          show: (params.minNothing &!params.minIncrease & !params.minDecrease)  
+
+      - Line:
+          yIntercept: 13
+          max: (5.8/8.8)
+          color: cbblue
+          show: (params.minIncrease &!params.minNothing & !params.minDecrease)  
+
+      - Line:
+          yIntercept: 13.2
+          max: (5.8/8.8)
+          color: purple
+          show: (params.minIncrease &!params.minNothing & !params.minDecrease)  
+
+      - Line:
+          yIntercept: 13
+          min: (5.8/8.8)
+          color: purple
+          show: (params.minIncrease &!params.minNothing & !params.minDecrease)        
+          lineStyle: dotted
+
+      - Line:
+          xIntercept: (5.8/8.8)
+          min: 13
+          max: 34.2666666667
+          color: cbgreen
+          show: (params.minIncrease &!params.minNothing & !params.minDecrease)        
+          lineStyle: dotted
+
+
+      - Line:
+          yIntercept: 19
+          color: cbblue
+          max: (10.6/13.6)
+          show: (params.minDecrease)
+
+      - Line:
+          yIntercept: 19.2
+          color: purple
+          max: (10.6/13.6)
+          show: (params.minDecrease)
+
+      - Line:
+          yIntercept: 19
+          color: purple
+          min: (10.6/13.6)
+          show: (params.minDecrease)
+          lineStyle: dotted
+
+    sidebar:
+      controls:
+      - title:  Figure 11.17 Monopsony and the minimum wage
+        
+        divs: 
+        - html:  "`<font size=3>  <ul> <li> Drag the blue point to determine the monopsonist's profit-maximizing level of hiring. The blue point will turn green at the correct level.   </li> <li>  Then, do the same for each choice of minimum wage. </li> </ul> `"
+
+        
+        checkboxes:
+          - param: minNothing
+            label: \text{\$8 minimum wage}
+            show: (!params.minIncrease & !params.minDecrease)
+          - param: minIncrease
+            label: \text{\$13 minimum wage}
+            show: (!params.minNothing & !params.minDecrease)
+          - param: minDecrease
+            label: \text{\$19 minimum wage}
+            show: (!params.minNothing & !params.minIncrease)
+            
+            
+    explanation:
+        divs:
+          - html: "`Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is less than the marginal cost of hours, ${calcs.cost.toFixed(1)}. Therefore, the monopsonist could do better by decreasing their level of hiring.  `"
+            show: (calcs.tooHigh & !params.minDecrease & !params.minIncrease)
+          - html: "`Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is greater than the marginal cost of hours, ${calcs.cost.toFixed(1)}. Therefore, the monopsonist could do better by increasing their level of hiring.  `"
+            show: (calcs.tooLow & !params.minDecrease & !params.minIncrease) 
+          - html: "`Hiring ${params.he} hours of employment as a fraction of the local labor supply is the monopsonist's profit-maximizing level of hiring. Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is equal to the marginal cost of hours, ${calcs.cost.toFixed(1)}. This corresponds to a wage of ${calcs.optimalw.toFixed(0)}.`"
+            show: (calcs.correcthe & !params.minDecrease & !params.minIncrease)           
+          - html: "`Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is less than the marginal cost of hours, ${calcs.cost.toFixed(1)}. Therefore, the monopsonist could do better by decreasing their level of hiring.  `"
+            show: (calcs.tooHigh2 & params.minDecrease &!calcs.correcthe2 & calcs.constantC2)
+          - html: "`Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is less than the marginal cost of hours, 19. Therefore, the monopsonist could do better by decreasing their level of hiring.  `"
+            show: (calcs.tooHigh2 & params.minDecrease &!calcs.correcthe2 & !calcs.constantC2)
+          - html: "`Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is greater than the marginal cost of hours, 19. Therefore, the monopsonist could do better by increasing their level of hiring.  `"
+            show: (calcs.tooLow2 & params.minDecrease &!calcs.correcthe2) 
+          - html: "`Hiring ${params.he} hours of employment as a fraction of the local labor supply is the monopsonist's profit-maximizing level of hiring. Here, the marginal revenue product of hours, 19.0, is equal to the marginal cost of hours, 19. This corresponds to a wage of 19.`"
+            show: (calcs.correcthe2 & params.minDecrease) 
+                       
+          - html: "`Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is less than the marginal cost of hours, ${calcs.cost.toFixed(1)}. Therefore, the monopsonist could do better by decreasing their level of hiring.  `"
+            show: (calcs.tooHigh1 & params.minIncrease &!calcs.correcthe1 & calcs.constantC1)
+          - html: "`Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is less than the marginal cost of hours, 13. Therefore, the monopsonist could do better by decreasing their level of hiring.  `"
+            show: (calcs.tooHigh1 & params.minIncrease &!calcs.correcthe1 & !calcs.constantC1)
+          - html: "`Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is greater than the marginal cost of hours, 13. Therefore, the monopsonist could do better by increasing their level of hiring.  `"
+            show: (calcs.tooLow1 & params.minIncrease &!calcs.correcthe1) 
+          - html: "`Hiring ${params.he} hours of employment as a fraction of the local labor supply is the monopsonist's profit-maximizing level of hiring. Here, the marginal revenue product of hours, ${calcs.optimalc.toFixed(1)}, is equal to the marginal cost of hours, 13. This corresponds to a wage of 13.`"
+            show: (calcs.correcthe1 & params.minIncrease)
