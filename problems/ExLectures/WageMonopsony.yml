@@ -170,7 +170,19 @@ layout:
         max: 1
         title: Wage, w
         ticks: 4
- 
+  
+      objects:
+            
+           
+            
+      - Curve:
+          fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x))) "
+          color: cbgreen
+          samplePoints: 2000
+          label:
+            text: "'w^N(H)'"
+            x: 0.7
+            position: t
           
     sidebar:
       controls:
