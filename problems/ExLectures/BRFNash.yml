@@ -60,7 +60,7 @@ layout:
             horizontal: calcs.optimalQ.toFixed(2)
 
       - Line:
-          xIntercept: params.p
+          point: [params.p, calcs.optimalQ]
           color: otherPlayerAction
           label:
             y: 0.95
