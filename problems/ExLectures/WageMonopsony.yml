@@ -63,8 +63,8 @@ calcs:
 
 
 layout:
- OneGraphPlusSidebar:
-    graph:
+ TwoHorizontalGraphsPlusSidebar:
+    leftGraph:
       xAxis:
         min: 0
         max: 1
@@ -159,7 +159,17 @@ layout:
           droplines:
             vertical: calcs.Hstar.toFixed(2)
                   
-                  
+   rightGraph:
+     xAxis:
+        min: 0
+        max: 1
+        title: Hours of employment as a fraction of labor supply, H
+        ticks: 4
+      yAxis:
+        intercept: 0
+        max: 1
+        title: Wage, w
+        ticks: 4
  
           
     sidebar:
