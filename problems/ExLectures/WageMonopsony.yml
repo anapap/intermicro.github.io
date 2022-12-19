@@ -1,9 +1,5 @@
-schema: BowlesHallidaySchema
+schema: EconSchema
 colors:
-  indifferenceCurve: "'#009E73'"
-  otherPlayerAction: lightgrey
-  principalAction: "'#0072B2'"
-  bestResponse: "'#CC79A7'"
   cbblue: "'#0072B2'"
   cbmustard: "'#E69F00'"
   cbgreen: "'#009E73'"
@@ -11,268 +7,167 @@ colors:
   cbred: "'#CC79A7'"
   cborange: "'#D55E00'"
 params:
-  - name: ubar
-    value: 0.0157
+  - name: n
+    value: 3
+    min: 0
+    max: 30
+    round: 1
+  - name: x
+    value: 1
+    min: 0
+    max: 37
+    round: 0.01
+  - name: beta
+    value: 0.5
     min: 0
     max: 1
     round: 0.01
-  - name: B
-    value: 0.2
+  - name: p
+    value: 20
+    min: 8
+    max: 25
+    round: 0.5
+  - name: c
+    value: 2
     min: 0
-    max: 1
-    round: 0.01
-  - name: t
-    value: 0.7
-    min: 0
-    max: 1
-    round: 0.01
-  - name: b
-    value: 0.15
-    min: 0.1
-    max: 0.5
-    round: 0.01
-  - name: gamma
-    value: 0.9
-    min: 0.5
-    max: 1
-    round: 0.01
-  - name: rho
-    value: 0.05
-    min: 0.01
-    max: 0.1
-    round: 0.01
-  - name: q
-    value: 0.2
-    min: 0.1
-    max: 1
-    round: 0.01
+    max: 14
+    round: 0.5
+  - name: showBestResponse
+    value: false
+    
   
 calcs:
-  U: (0.9-calcs.H)
-  G: (calcs.U + calcs.H -(1-calcs.U)*(calcs.wc))
-  wc: (((1 - params.b)*params.gamma)/(1 + params.rho))
-  Hstar: (1- ((1-params.t)*params.ubar)/((calcs.wc - params.B - params.ubar)*params.t))
-  H: (0.9 * calcs.Hstar)
-  X: (calcs.H*100*params.gamma)
-  firmExpand: calcs.wc > (((1 - 0.15)*0.9)/(1 + 0.05))
-  firmContract: calcs.wc < (((1 - 0.15)*0.9)/(1 + 0.05))
-  no: (calcs.Hstar < 0.5)
-  nothing: ((params.B + params.ubar + params.ubar*(1-params.t)/(params.t)) > calcs.wc)
-  something: ((params.B + params.ubar + params.ubar*(1-params.t)/(params.t)) < calcs.wc)  
-
+  br: (((params.p - params.c)/(params.beta))-2*params.x)
+  nash: ((params.p - params.c)/((params.n+1)*params.beta))
+  nashX: (calcs.nash)*(params.n-1)
+  totaloutput: calcs.nash + calcs.nashX
+  price: (params.c + (params.p - params.c)/(1+params.n))
+  profit: (calcs.price-params.c)*calcs.nash*params.n 
+  cs: (params.beta*(params.p-calcs.price))*calcs.nash*params.n 
+  sum: calcs.profit + calcs.cs
+  interY: ((params.p - params.c)/(params.beta))
+  interX: ((params.p - params.c)/(params.beta*2))
+  n : ((params.p*(1-params.b)) - params.c)/(params.b*params.c)
+  p : (params.c + (1/(params.n+1)) * (params.p-params.c))
+  phat : (1-params.b)*calcs.p
+  ecprofits: (calcs.n*(1/(calcs.n+1)^2))*((params.p-params.c)^2/(params.b))
+  <!-- cs: (1/2)*(params.p - (params.c + ((1/(calcs.n+1))*(params.p -params.c)  )) )*(calcs.n/(calcs.n+1))*( (params.p - params.c)/(params.b)) -->
+  markup: calcs.p - params.c
+  <!-- eccs: calcs.ecprofits + calcs.cs -->
+  nneg : (calcs.n < 0)
 
 
 layout:
- TwoHorizontalGraphsPlusSidebar:
+  TwoHorizontalGraphsPlusSidebar:
     leftGraph:
       xAxis:
-        min: 0
-        max: 1
-        title: Hours of employment as a fraction of labor supply, H
-        ticks: 4
+        max: 37
+        title: The firm's output, $x^{i}$
+        ticks: 0
       yAxis:
-        intercept: 0
-        max: 1
-        title: Wage, w
-        ticks: 4
+        max: 37
+        title: Other firms' total output, $X^{-i}$
+        ticks: 0
         
       objects:
-            
-           
-            
-      - Curve:
-          fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x))) "
-          color: cbgreen
-          samplePoints: 2000
-          label:
-            text: "'w^N(H)'"
-            x: 0.7
-            position: t
-           
-
-           
-            
-            
-    # - Line:
-     #     yIntercept: (((1 - 0.15)*0.9)/(1 + 0.05))
-      #    color: grey
-       #   lineStyle: dashed 
-        #  label:
-         #   text: "'w_0 = w^c_0'"
-          #  x: 0.85
 
 
-       
       - Line:
-          yIntercept: calcs.wc
-          color: cbblue
-          label:
-            text: "'w = w^c'"
-            x: 0.85    
+          yIntercept: calcs.interY
+          slope: -2
+          color: cbgreen
+          label: 
+            text: "\\text{brf}"
+            x: 17
+            align: left
+
            
+      - Point:
+         coordinates: [calcs.interX,0]
+         r: 0
+         color: cbgreen
+         droplines: 
+          vertical: "\\large\\frac{\\bar{p}-c}{2\\beta}"
           
+      - Point:
+         coordinates: [0,calcs.interY]
+         r: 0
+         color: cbgreen
+         droplines: 
+          horizontal: "\\large\\frac{\\bar{p}-c}{\\beta}"
 
           
-      - Rectangle:
-          a: [0,calcs.wc]
-          b: [1,1]
-          fill: purple
-          clipPaths:
-          - Area:       
-             fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x)))"
-             samplePoints: 200
-             above: true
-          show: calcs.something
-             
-      - Rectangle:
-          a: [0,calcs.wc]
-          b: [1, 0]
-          fill: blue
-          clipPaths:
-          - Area:       
-             fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x)))"
-             samplePoints: 200
-             above: true
-          show: calcs.something
+      - Contour:
+          level: [(1/(params.n+1)^2)*(params.p - params.c)^2/(params.beta)]
+          fn: "(params.p - params.beta*y)*(x) - params.beta*(x)^2 - params.c*(x)"
+          color: cbgreen
+      - Label:
+            coordinates: [31,3]
+            text: \pi_{n}
+            color: cbgreen
+
+      - Line:
+          yIntercept: 0
+          slope: params.n-1
+          color: cbblue
+          label: 
+            text: "\\small X^{-i}"
+            y: 36
 
           
-   #   - Arrow:
-    #      begin: [0.8, calcs.wc+0.05]
-     #     end: [0.7, calcs.wc+0.05]
-      #    color: black
-       #   show: (calcs.firmExpand | calcs.firmContract)
-        #  label:
-         #   text: "\\text{Firms exit}"
-          #  location: -0.5
-          
-    #  - Arrow:
-      #    begin: [0.65, calcs.wc-0.05]
-       #   end: [0.75, calcs.wc-0.05]
-        #  color: black
-         # show: (calcs.firmExpand | calcs.firmContract)
-          #label:
-           # text: "\\text{Firms enter}"
-            #location: -0.5
 
       - Point:
-          coordinates: [calcs.Hstar, calcs.wc]
+          coordinates: [calcs.nash, calcs.nashX]
+          color: black
           droplines:
-            vertical: calcs.Hstar.toFixed(2)
-                  
-   rightGraph:
-     xAxis:
-        min: 0
-        max: 1
-        title: Hours of employment as a fraction of labor supply, H
+            horizontal: calcs.nashX.toFixed(2)
+            vertical: calcs.nash.toFixed(2)
+           
+          
+    rightGraph:
+      xAxis:
+        title: "Number of firms, n"
+        max: 20
         ticks: 4
       yAxis:
-        intercept: 0
-        max: 1
-        title: Wage, w
-        ticks: 4
-  
+        title: "Costs, price, expected price"
+        max: 12
+        ticks: 2
       objects:
-            
-           
-            
       - Curve:
-          fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x))) "
-          color: cbgreen
-          samplePoints: 2000
-          label:
-            text: "'w^N(H)'"
-            x: 0.7
-            position: t
+          fn: params.c + (1/((x)+1)) * (params.p-params.c)
+          color: colors.cbgreen
+          label:    
+            x: 16
+            text: "{p}(n)"
+     
+      - Line:
+          yIntercept: params.c
+          slope: 0
+          color: colors.cbblue   
+          label:            
+              text: "cost"
+              x: 19 
+     
           
+
     sidebar:
       controls:
-      - title:  Figure 11.14 equilibrium in the product and labor markets of the whole economy
-      
+      - title: Nash equilibrium output with n firms        
         divs:
-        - html:  "`<font size=3>  <ul> <li> Use the sliders to change various policy instruments and exogenous variables in the whole-economy model and see the resulting implications. </li> <li> Endogenous variables and a legend follow below. </li> </ul> `"      
-      
-      - title:  Policy Instruments
+        - html: <font size=3> This graph shows the Cournot model with n firms, with one arbitrary firm best responding to outputs chosen by all other identical firms, resulting in a Nash equilibrium output. The left panel shows the construction of the best response function for the abitrary firm, each point along which is a different best response for a different n. The right panel shows a ray from the origin corresponding to different total numbers of firms, n. This ray intersects with the arbitrary firm's best response function at the Nash equilibrium level of the arbitrary firm's output and of the output levels of all other firms.
+        - html: <font size=3> <ul> <li> Move the slider to see how this nash equilibrium level of output changes when total number of firms, n, changes. </li> <li> Also pay attention to how total output, industry profits, and consumer surplus change, shown below.   </li> </ul> 
+        - html: "`Firm output, $x^{i}$: ${calcs.nash.toFixed(1)}`"
+        - html: "`Other firms' total output, $X^{-i}$: ${calcs.nashX.toFixed(1)}`"
+        - html: "`Total output: ${calcs.totaloutput.toFixed(1)}`"
+        - html: "`Industry profits: ${calcs.profit.toFixed(1)}`"
+        - html: "`Consumer surplus: ${calcs.cs.toFixed(1)}`"
+        - html: "`Sum of economic profits and consumer surplus: ${calcs.sum.toFixed(1)}`"
+        
         sliders:
-        - {param: B, label: B}
-        - {param: t, label: t}
-        - {param: b, label: b}
-        - {param: gamma, label: \\\gamma}
+        - {param: n, label: n}
+        - {param: p, label: p}     
+        - {param: c, label: c}
+        - {param: beta, label: β}
         
-      - title:  Exogenous variables
-        sliders:
-        - {param: ubar, label: u}
-        - {param: rho, label: \\\rho}
-        divs: 
-         - html: "`$P = 100$`"
-         - html: "`$E = 10$`"
-        
-      - title:  Endogenous variables
-
-        divs:
-      
-        - html: "`<table>
-          <tr>
-            <td>Real wage rate ($w$):</td>
-            <td>${calcs.wc.toFixed(2)}</td>
-          </tr>
-          <tr>
-            <td>Fraction of population employed ($h$):</td>
-            <td>${calcs.Hstar.toFixed(2)}</td>
-          </tr>
-        </table>`"
-        show: calcs.something
-        
-      - title:  Endogenous variables
-
-        divs:
-      
-        - html: "`<table>
-          <tr>
-            <td>Real wage rate ($w$):</td>
-            <td> $n/a$ </td>
-          </tr>
-          <tr>
-            <td>Fraction of population employed ($h$):</td>
-            <td> $n/a$ </td>
-          </tr>
-        </table>`"
-        show: calcs.nothing        
-        
-      - title:  Legend
-
-        divs:
-      
-        - html: "`<table>
-          <tr>
-            <td>$B$: </td>
-            <td> unemployment benefits  </td>
-          </tr>
-          <tr>
-            <td>$t$:  </td>
-                        <td> termination probability  </td>
-          </tr>
-                    <tr>
-            <td>$b$:  </td>
-                        <td> barriers to entry  </td>
-          </tr>
-                    <tr>
-            <td>$\\\\gamma$:  </td>
-                        <td> output per worker  </td>
-          </tr>
-                    <tr>
-            <td>$u$:  </td>
-                        <td> disutility of effort  </td>
-          </tr>
-                    <tr>
-            <td>$\\\\rho$:  </td>
-                        <td> opportunity cost of capital  </td>
-          </tr>
-                    <tr>
-            <td>$P$:  </td>
-                        <td> total population  </td>
-          </tr>
-                    <tr>
-            <td>$E$:  </td>
-                        <td> number of employers  </td>
-          </tr>
-        </table>`"
+         
