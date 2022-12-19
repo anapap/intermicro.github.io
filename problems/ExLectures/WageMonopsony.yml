@@ -41,6 +41,14 @@ params:
     min: 0.01
     max: 0.1
     round: 0.01
+  - name: q
+    value: 0.2
+    min: 0.1
+    max: 1
+    round: 0.1
+  - name: Monopsony
+    value: false
+    
   
 calcs:
   U: (0.9-calcs.H)
@@ -78,6 +86,17 @@ layout:
       - Curve:
           fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x))) "
           color: cbgreen
+          show: (!params.Monopsony)
+          samplePoints: 2000
+          label:
+            text: "'w^N(H)'"
+            x: 0.7
+            position: t
+            
+       - Curve:
+          fn: "params.B + params.ubar + params.ubar*(1-params.t)(1-(x))/(params.t*(1-(x)-params.q*(x))) "
+          color: cbgreen
+          show: (params.Monopsony)
           samplePoints: 2000
           label:
             text: "'w^N(H)'"
@@ -161,6 +180,11 @@ layout:
       
         divs:
         - html:  "`<font size=3>  <ul> <li> Use the sliders to change various policy instruments and exogenous variables in the whole-economy model and see the resulting implications. </li> <li> Endogenous variables and a legend follow below. </li> </ul> `"      
+      
+       checkboxes:
+        - param: Monopsony
+          label: \text{Monopsony}
+      
       
       - title:  Policy Instruments
         sliders:
