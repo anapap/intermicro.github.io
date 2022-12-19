@@ -19,6 +19,8 @@ params:
     value: 5
   - name: showBestResponse
     value: false
+  - name: showPchoice
+    value: false
     
   
 calcs:
@@ -62,9 +64,19 @@ layout:
       - Line:
           point: [params.p, calcs.optimalQ]
           color: otherPlayerAction
+          show: (params.showPchoice)
           label:
             y: 0.95
             text: \text{Principal's choice}
+            
+            
+      - ContourMap:
+          levels: [5, 11.25, 20, 31.25, 45, 61.25, 80, 101.25]
+          fn: "((x)-params.u/(1-(y)))/(1-(y))"
+          xMin: 10
+          xMax: 51
+          yMin: -0.1
+          color: indifferenceCurve   
             
       - Label:
           coordinates: [params.p, AXIS]
@@ -108,7 +120,7 @@ layout:
           yMin: -0.1
           color: indifferenceCurve
           
-         
+       
 
                      
           
@@ -126,6 +138,8 @@ layout:
         checkboxes:
           - param: showBestResponse
             label: \text{Show best-response function}
+          - param: showPchoice
+            label: \text{Principal's choice}
         
             
     explanation:
