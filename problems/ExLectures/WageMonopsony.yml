@@ -53,12 +53,13 @@ calcs:
   firmContract: calcs.wc < (((1 - 0.15)*0.9)/(1 + 0.05))
   no: (calcs.Hstar < 0.5)
   nothing: ((params.B + params.ubar + params.ubar*(1-params.t)/(params.t)) > calcs.wc)
-  something: ((params.B + params.ubar + params.ubar*(1-params.t)/(params.t)) < calcs.wc)
+  something: ((params.B + params.ubar + params.ubar*(1-params.t)/(params.t)) < calcs.wc)  
+
 
 
 layout:
-  TwoHorizontalGraphsPlusSidebar:
-    leftGraph:
+  OneGraphPlusSidebar:
+    graph:
       xAxis:
         min: 0
         max: 1
@@ -71,9 +72,10 @@ layout:
         ticks: 4
         
       objects:
-
-
-       - Curve:
+            
+           
+            
+      - Curve:
           fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x))) "
           color: cbgreen
           samplePoints: 2000
@@ -81,8 +83,21 @@ layout:
             text: "'w^N(H)'"
             x: 0.7
             position: t
+           
 
            
+            
+            
+    # - Line:
+     #     yIntercept: (((1 - 0.15)*0.9)/(1 + 0.05))
+      #    color: grey
+       #   lineStyle: dashed 
+        #  label:
+         #   text: "'w_0 = w^c_0'"
+          #  x: 0.85
+
+
+       
       - Line:
           yIntercept: calcs.wc
           color: cbblue
@@ -103,77 +118,9 @@ layout:
              samplePoints: 200
              above: true
           show: calcs.something
-
-          
-       - Rectangle:
-          a: [0,calcs.wc]
-          b: [1, 0]
-          fill: blue
-          clipPaths:
-          - Area:       
-             fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x)))"
-             samplePoints: 200
-             above: true
-          show: calcs.something
-      
-
-          
-
-       - Point:
-          coordinates: [calcs.Hstar, calcs.wc]
-          droplines:
-            vertical: calcs.Hstar.toFixed(2)
-           
-          
-    rightGraph:
-       xAxis:
-        min: 0
-        max: 1
-        title: Hours of employment as a fraction of labor supply, H
-        ticks: 4
-      yAxis:
-        intercept: 0
-        max: 1
-        title: Wage, w
-        ticks: 4
-        
-      objects:
-
-
-       - Curve:
-          fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x))) "
-          color: cbgreen
-          samplePoints: 2000
-          label:
-            text: "'w^N(H)'"
-            x: 0.7
-            position: t
-
-           
-      - Line:
-          yIntercept: calcs.wc
-          color: cbblue
-          label:
-            text: "'w = w^c'"
-            x: 0.85    
-           
-          
-
-          
+             
       - Rectangle:
           a: [0,calcs.wc]
-          b: [1,1]
-          fill: purple
-          clipPaths:
-          - Area:       
-             fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x)))"
-             samplePoints: 200
-             above: true
-          show: calcs.something
-
-          
-       - Rectangle:
-          a: [0,calcs.wc]
           b: [1, 0]
           fill: blue
           clipPaths:
@@ -182,18 +129,33 @@ layout:
              samplePoints: 200
              above: true
           show: calcs.something
-      
 
           
+   #   - Arrow:
+    #      begin: [0.8, calcs.wc+0.05]
+     #     end: [0.7, calcs.wc+0.05]
+      #    color: black
+       #   show: (calcs.firmExpand | calcs.firmContract)
+        #  label:
+         #   text: "\\text{Firms exit}"
+          #  location: -0.5
+          
+    #  - Arrow:
+      #    begin: [0.65, calcs.wc-0.05]
+       #   end: [0.75, calcs.wc-0.05]
+        #  color: black
+         # show: (calcs.firmExpand | calcs.firmContract)
+          #label:
+           # text: "\\text{Firms enter}"
+            #location: -0.5
 
-       - Point:
+      - Point:
           coordinates: [calcs.Hstar, calcs.wc]
           droplines:
             vertical: calcs.Hstar.toFixed(2)
-     
+                  
           
-
-   sidebar:
+    sidebar:
       controls:
       - title:  Figure 11.14 equilibrium in the product and labor markets of the whole economy
       
@@ -285,5 +247,3 @@ layout:
                         <td> number of employers  </td>
           </tr>
         </table>`"
-        
-         
