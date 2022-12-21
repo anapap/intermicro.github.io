@@ -87,6 +87,7 @@ layout:
       - Curve:
           fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x))) "
           color: cbgreen
+          show: (params.showMonopsony)
           samplePoints: 2000
           label:
             text: "'w^N(H)'"
