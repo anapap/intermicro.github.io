@@ -174,9 +174,7 @@ layout:
         - html:  "`<font size=3>  <ul> <li> Use the sliders to change various policy instruments and exogenous variables in the whole-economy model and see the resulting implications. </li> <li> Endogenous variables and a legend follow below. </li> </ul> `"      
       
    
-         checkboxes:
-          - param: showMonopsony
-            label: \text{Monopsony}
+         
       
       
       - title:  Policy Instruments
@@ -190,6 +188,9 @@ layout:
         sliders:
         - {param: ubar, label: u}
         - {param: rho, label: \\\rho}
+        checkboxes:
+          - param: showMonopsony
+            label: \text{Monopsony}
         divs: 
          - html: "`$P = 100$`"
          - html: "`$E = 10$`"
