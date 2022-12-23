@@ -8,7 +8,7 @@ params:
   - name: k
     value: 0.5
     min: 0.5
-    max: 1
+    max: 0.99
     round: 0.001
   - name: b
     value: 0
@@ -24,7 +24,7 @@ params:
     value: 1.5
     min: 1
     max: 2
-    round: 0.1
+    round: 0.01
     
 calcs:
   f: (.5 + ((calcs.x) / (2))(1-params.k))
@@ -32,6 +32,8 @@ calcs:
   threshold: (.25-(4)((1-params.k)/(2))((1+params.rho)/(1-params.b)))
   correct: (calcs.threshold >= 0)
   x1: (2((1+params.rho)/(1-params.b)))
+  Nashx: (params.q)/(2(1-params.k)) 
+  Nashf: 0.5+((calcs.Nashx)(1-params.k))/(2*params.q)
   
 
 
@@ -50,20 +52,20 @@ layout:
       objects:
          
       - Point:
-          coordinates: [calcs.x, calcs.f]
+          coordinates: [calcs.Nashx, calcs.Nashf]
           color: black
-          show: (calcs.correct & (params.k <1 ))
+         # show: (calcs.correct & (params.k <1 ))
           droplines:
-            horizontal: calcs.f.toFixed(2)
-            vertical: calcs.x.toFixed(2)
+            horizontal: calcs.Nashf.toFixed(2)
+            vertical: calcs.Nashx.toFixed(2)
       
-      - Point:
-          coordinates: [calcs.x1, 0.5]
-          color: black
-          show: (params.k == 1)
-          droplines:
-            horizontal: calcs.x1.toFixed(2)
-            vertical: 0.5
+     # - Point:
+      #    coordinates: [calcs.x1, 0.5]
+       #   color: black
+        #  show: (params.k == 1)
+         # droplines:
+          #  horizontal: calcs.x1.toFixed(2)
+           # vertical: 0.5
             
       - Curve:
           fn: "  1 - ((1 + params.rho)/(1 - params.b))*(1/(x))"        
