@@ -167,6 +167,111 @@ layout:
           droplines:
             vertical: calcs.Hstar.toFixed(2)
                   
+                  
+     
+   bottomGraph:
+      xAxis:
+        min: 0
+        max: 1
+        title: Hours of employment as a fraction of labor supply, H
+        ticks: 4
+      yAxis:
+        intercept: 0
+        max: 1
+        title: Wage, w
+        ticks: 4
+        
+      objects:
+            
+           
+            
+      - Curve:
+          fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x))) "
+          color: cbgreen
+          samplePoints: 2000
+          label:
+            text: "'w^N(H)'"
+            x: 0.7
+            position: t
+            
+            
+            
+      
+            
+            
+          
+
+           
+            
+            
+    # - Line:
+     #     yIntercept: (((1 - 0.15)*0.9)/(1 + 0.05))
+      #    color: grey
+       #   lineStyle: dashed 
+        #  label:
+         #   text: "'w_0 = w^c_0'"
+          #  x: 0.85
+
+
+       
+      - Line:
+          yIntercept: calcs.wc
+          color: cbblue
+          label:
+            text: "'w = w^c'"
+            x: 0.85    
+           
+          
+
+          
+      - Rectangle:
+          a: [0,calcs.wc]
+          b: [1,1]
+          fill: purple
+          clipPaths:
+          - Area:       
+             fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x)))"
+             samplePoints: 200
+             above: true
+          show: calcs.something
+             
+      - Rectangle:
+          a: [0,calcs.wc]
+          b: [1, 0]
+          fill: blue
+          clipPaths:
+          - Area:       
+             fn: "params.B + params.ubar + params.ubar*(1-params.t)/(params.t*(1-(x)))"
+             samplePoints: 200
+             above: true
+          show: calcs.something
+
+          
+   #   - Arrow:
+    #      begin: [0.8, calcs.wc+0.05]
+     #     end: [0.7, calcs.wc+0.05]
+      #    color: black
+       #   show: (calcs.firmExpand | calcs.firmContract)
+        #  label:
+         #   text: "\\text{Firms exit}"
+          #  location: -0.5
+          
+    #  - Arrow:
+      #    begin: [0.65, calcs.wc-0.05]
+       #   end: [0.75, calcs.wc-0.05]
+        #  color: black
+         # show: (calcs.firmExpand | calcs.firmContract)
+          #label:
+           # text: "\\text{Firms enter}"
+            #location: -0.5
+
+      - Point:
+          coordinates: [calcs.Hstar, calcs.wc]
+          droplines:
+            vertical: calcs.Hstar.toFixed(2)
+     
+     
+     
           
     sidebar:
       controls:
