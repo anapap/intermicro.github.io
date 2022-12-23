@@ -65,8 +65,8 @@ calcs:
 
 
 layout:
-  OneGraphPlusSidebar:
-    graph:
+  TwoHorizontalGraphsPlusSidebar:
+    leftGraph:
       xAxis:
         min: 0
         max: 1
