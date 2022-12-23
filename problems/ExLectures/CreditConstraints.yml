@@ -21,10 +21,10 @@ params:
     max: 0.5
     round: 0.01
   - name: q
-    value: 0.5
-    min: 0.01
-    max: 1
-    round: 0.01
+    value: 1.5
+    min: 1
+    max: 2
+    round: 0.1
     
 calcs:
   f: (.5 + ((calcs.x) / (2))(1-params.k))
