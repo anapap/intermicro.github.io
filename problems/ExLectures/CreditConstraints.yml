@@ -21,7 +21,10 @@ params:
     max: 0.5
     round: 0.01
   - name: q
-    value: 1  
+    value: 0.5
+    min: 0.01
+    max: 1
+    round: 0.01
     
 calcs:
   f: (.5 + ((calcs.x) / (2))(1-params.k))
@@ -86,6 +89,7 @@ layout:
         - {param: k, label: k} 
         - {param: rho, label: \rho}   
         - {param: b, label: b} 
+        - {param: q, label: q} 
         
         divs:
         - html:  "`<font size=3>  <ul> <li> Use the sliders above to vary equity, $k$, the opportunity cost of capital, $\\\\rho$, and barriers to entry, $b$, and notice the implications for borrowers with different amounts of equity.</li> </ul> `"
