@@ -65,7 +65,8 @@ calcs:
 
 
 layout:
-  TwoVerticalGraphsPlusSidebar:
+  type: TwoVerticalGraphsPlusSidebar
+  def:
     topGraph:
       xAxis:
         min: 0
