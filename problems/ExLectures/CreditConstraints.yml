@@ -83,14 +83,14 @@ layout:
             text: \hat{\pi}_1
             
       - Curve:
-          fn: "  1 - (((0.2/(1-params.k))+(1 + params.rho))*(1/(x)))"        
+          fn: "  1 - (((0.25/(1-params.k))+(1 + params.rho))*(1/(x)))"        
           color: blue          
           label:
             x: 9
             text: \hat{\pi}_2
             
       - Curve:
-          fn: "  1 - (((0.25/(1-params.k))+(1 + params.rho))*(1/(x)))"        
+          fn: "  1 - (((0.35/(1-params.k))+(1 + params.rho))*(1/(x)))"        
           color: blue          
           label:
             x: 9
