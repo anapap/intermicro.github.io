@@ -33,8 +33,8 @@ calcs:
   correct: (calcs.threshold >= 0)
   x1: (2((1+params.rho)/(1-params.b)))
   Nashx: (params.q)/(2(1-params.k)) 
-  # Nashf: 0.5+(((calcs.Nashx)(1-params.k))/(2*params.q))
-  Nashf: 0.75
+  Nashf: 0.5+(((calcs.Nashx)(1-params.k))/(2*params.q))
+  
   
 
 
