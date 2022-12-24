@@ -32,8 +32,9 @@ calcs:
   threshold: (.25-(4)((1-params.k)/(2))((1+params.rho)))
   correct: (calcs.threshold >= 0)
   x1: (2(1+params.rho))
-  Nashx: (params.q)/(2(1-params.k)) 
   Nashf: 0.5+(((calcs.Nashx)(1-params.k))/(2*params.q))
+  Nashx: (params.q)/(2(1-params.k)) 
+  equalslopes: (1-params.k)/(2*params.q)=(1+params.rho)/((x)^2)
   
   
 
@@ -53,20 +54,20 @@ layout:
       objects:
          
       - Point:
-          coordinates: [calcs.x, calcs.f]
+          coordinates: [calcs.Nashx, calcs.Nashf]
           color: black
-          show: (calcs.correct & (params.k <1 ))
+          show: (calcs.equalslopes & (params.k <1 ))
           droplines:
-            horizontal: calcs.f.toFixed(2)
-            vertical: calcs.x.toFixed(2)
+            horizontal: calcs.Nashf.toFixed(2)
+            vertical: calcs.Nashx.toFixed(2)
       
-      - Point:
-          coordinates: [calcs.x1, 0.5]
-          color: black
-          show: (params.k == 1)
-          droplines:
-            horizontal: calcs.x1.toFixed(2)
-            vertical: 0.5
+     # - Point:
+      #    coordinates: [calcs.x1, 0.5]
+       #   color: black
+        #  show: (params.k == 1)
+         # droplines:
+          #  horizontal: calcs.x1.toFixed(2)
+           # vertical: 0.5
             
       - Curve:
           fn: "  1 - ((1 + params.rho)*(1/(x)))"        
