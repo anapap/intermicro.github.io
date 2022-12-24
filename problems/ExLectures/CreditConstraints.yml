@@ -33,7 +33,7 @@ calcs:
   correct: (calcs.threshold >= 0)
   x1: (2((1+params.rho)/(1-params.b)))
   Nashx: (params.q)/(2(1-params.k)) 
-  Nashf: 0.5+((calcs.Nashx)(1-params.k))/(2*params.q)
+  Nashf: 0.5+(((calcs.Nashx)(1-params.k))/(2*params.q))
   
 
 
@@ -68,11 +68,19 @@ layout:
            # vertical: 0.5
             
       - Curve:
-          fn: "  1 - ((1 + params.rho)/(1 - params.b))*(1/(x))"        
+          fn: "  1 - ((1 + params.rho)*(1/(x)))"        
           color: blue          
           label:
             x: 9
             text: \hat{\pi}_0
+            
+      - Curve:
+          fn: "  1 - (((0.125/(1-params.k))+(1 + params.rho))*(1/(x)))"        
+          color: blue          
+          label:
+            x: 10
+            text: \hat{\pi}_1
+      
             
       - Curve:
           fn: " .5 + ((x) / (2 * params.q)) * (1 - params.k)" 
