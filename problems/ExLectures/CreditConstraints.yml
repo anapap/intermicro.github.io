@@ -27,7 +27,7 @@ params:
     round: 0.01
     
 calcs:
-  f: (.5 + ((calcs.x) / (2))(1-params.k))
+  f: (.5 + ((calcs.x) / (2*params.q))(1-params.k))
   x: ((0.5 - sqrt(.25-(4)((1-params.k)/(2))((1+params.rho))))/(1-params.k))
   threshold: (.25-(4)((1-params.k)/(2))((1+params.rho)))
   correct: (calcs.threshold >= 0)
