@@ -21,9 +21,9 @@ params:
     max: 0.5
     round: 0.01
   - name: q
-    value: 1.5
+    value: 2
     min: 1
-    max: 2
+    max: 3
     round: 0.01
     
 calcs:
