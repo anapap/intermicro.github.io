@@ -31,7 +31,6 @@
     <hr/>
     {% if page.goals %}
 <div class="goals">
- {% LEARNING GOALS: %}
 <ul>
   {% for goal_number in page.goals %}
   {% assign goal = site.data.cornell_goals | where: "number", goal_number %}
