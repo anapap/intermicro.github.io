@@ -10,7 +10,7 @@ params:
   - name: n
     value: 3
     min: 0
-    max: 30
+    max: 20
     round: 1
   - name: x
     value: 1
@@ -128,11 +128,11 @@ layout:
       xAxis:
         title: "Number of firms, n"
         max: 20
-        ticks: 4
+        ticks: 5
       yAxis:
         title: "Costs, price, expected price"
         max: 12
-        ticks: 2
+        ticks: 3
       objects:
       - Curve:
           fn: params.c + (1/((x)+1)) * (params.p-params.c)
