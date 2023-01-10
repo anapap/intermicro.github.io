@@ -30,7 +30,7 @@ params:
   - name: c
     value: 2
     min: 0
-    max: 14
+    max: 8
     round: 0.5
   - name: showBestResponse
     value: false
