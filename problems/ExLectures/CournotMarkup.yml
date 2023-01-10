@@ -156,13 +156,14 @@ layout:
       - title: Nash equilibrium output with n firms        
         divs:
         - html: <font size=3> This graph shows the Cournot model with n firms, with one arbitrary firm best responding to outputs chosen by all other identical firms, resulting in a Nash equilibrium output. The left panel shows the construction of the best response function for the abitrary firm, each point along which is a different best response for a different n. The right panel shows a ray from the origin corresponding to different total numbers of firms, n. This ray intersects with the arbitrary firm's best response function at the Nash equilibrium level of the arbitrary firm's output and of the output levels of all other firms.
+        - html: <font size=3> The following figure includes two graphs. The left graph shows the BRF of firm i, its profit function, and the output produced by all other firms in the market. The right graph shows the marginal cost and the markup in the market.
         - html: <font size=3> <ul> <li> Move the slider to see how this nash equilibrium level of output changes when total number of firms, n, changes. </li> <li> Also pay attention to how total output, industry profits, and consumer surplus change, shown below.   </li> </ul> 
         - html: "`Firm output, $x^{i}$: ${calcs.nash.toFixed(1)}`"
         - html: "`Other firms' total output, $X^{-i}$: ${calcs.nashX.toFixed(1)}`"
         - html: "`Total output: ${calcs.totaloutput.toFixed(1)}`"
         - html: "`Industry profits: ${calcs.profit.toFixed(1)}`"
         - html: "`Consumer surplus: ${calcs.cs.toFixed(1)}`"
-        - html: "`Sum of economic profits and consumer surplus: ${calcs.sum.toFixed(1)}`"
+        
         
         sliders:
         - {param: n, label: n}
