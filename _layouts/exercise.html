@@ -33,8 +33,7 @@
 <div class="goals">
 <ul>
   {% for goal_number in page.goals %}
-  {% assign goal = site.data.cornell_goals | where: "number", goal_number %}
-   <li><em>{{ goal_number }}: {{ goal[0].goal }}</em></li> 
+  {% assign goal = site.data.cornell_goals | where: "number", goal_number %} 
   {% endfor %}
 </ul>
 <hr/>
